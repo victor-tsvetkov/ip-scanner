@@ -41,12 +41,12 @@ public class IPScanner {
             if (InetAddress.getByName(host).isReachable(600)) {
                 logItem = getCurrentLocalDateTime() + " Адрес " + host + " в сети\n";
                 log.info(logItem);
-                networkNode.setOnline(true);
+                networkNode.setOnline("В сети");
                 networkNode.setLastOnlineTime(getCurrentLocalDateTime());
             } else {
                 logItem = getCurrentLocalDateTime() + " Внимание! Адрес " + host + " не в сети!\n";
                 log.warn(logItem);
-                networkNode.setOnline(false);
+                networkNode.setOnline("Не в сети");
             }
         } catch (UnknownHostException e) {
             logItem = getCurrentLocalDateTime() + " Ошибка при попытке пинга - неизвестный адрес: " + host + "\n";

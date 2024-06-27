@@ -2,6 +2,7 @@ package viktor.tsvetkov.ip_scanner;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import viktor.tsvetkov.ip_scanner.executor.ScheduleExecutor;
@@ -9,8 +10,10 @@ import viktor.tsvetkov.ip_scanner.launcher.IPScanner;
 import viktor.tsvetkov.ip_scanner.launcher.LauncherProperties;
 import viktor.tsvetkov.ip_scanner.logging.LogFileManager;
 import viktor.tsvetkov.ip_scanner.model.NetworkNode;
+import viktor.tsvetkov.ip_scanner.services.TableService;
 import viktor.tsvetkov.ip_scanner.utils.Color;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ScanController {
@@ -29,6 +32,10 @@ public class ScanController {
         logFileManager.createLogsFile();
         scanner = new IPScanner(properties.getMainHosts(), logFileManager);
         scanMainHosts();
+        List<NetworkNode> networkNodes = scanner.scanMainHosts();
+        TableService tableService = new TableService(networkNodes);
+        TableView<NetworkNode> table = tableService.createTable();
+        mainVbox.getChildren().add(table);
 
 //        String[] mainHosts = properties.getMainHosts();
 //        int length = properties.getMainHosts().length;
@@ -41,26 +48,26 @@ public class ScanController {
 
     @FXML
     public void scanMainHosts() {
-        List<NetworkNode> networkNodes = scanner.scanMainHosts();
         executor.execute(() -> {
             Platform.runLater(() -> {
-                networkNodes.forEach(networkNode -> {
-                    TextField textField = (TextField) mainVbox
-                            .getChildren().stream().filter(field -> field.getId().equals(networkNode.getIpAddress()))
-                            .findFirst().orElseThrow();
-                    String status = networkNode.isOnline() ? " в сети" : " не в сети";
-                    String lastOnlineTime = "";
-                    if (!networkNode.isOnline()) {
-                        if (networkNode.getLastOnlineTime() == null) {
-                            lastOnlineTime = ". Последняя активность: сегодня ещё не был активен";
-                        } else {
-                            lastOnlineTime = ". Последняя активность: " + networkNode.getLastOnlineTime();
-                        }
-                    }
-                    textField.setText("Адрес " + networkNode.getIpAddress() + status + lastOnlineTime);
-                    String color = networkNode.isOnline() ? Color.GREEN.getColor() : Color.RED.getColor();
-                    textField.setStyle("-fx-control-inner-background: " + color);
-                });
+//                networkNodes = scanner.scanMainHosts();
+//                networkNodes.forEach(networkNode -> {
+//                    TextField textField = (TextField) mainVbox
+//                            .getChildren().stream().filter(field -> field.getId().equals(networkNode.getIpAddress()))
+//                            .findFirst().orElseThrow();
+//                    String status = networkNode.isOnline() ? " в сети" : " не в сети";
+//                    String lastOnlineTime = "";
+//                    if (!networkNode.isOnline()) {
+//                        if (networkNode.getLastOnlineTime() == null) {
+//                            lastOnlineTime = ". Последняя активность: сегодня ещё не был активен";
+//                        } else {
+//                            lastOnlineTime = ". Последняя активность: " + networkNode.getLastOnlineTime();
+//                        }
+//                    }
+//                    textField.setText("Адрес " + networkNode.getIpAddress() + status + lastOnlineTime);
+//                    String color = networkNode.isOnline() ? Color.GREEN.getColor() : Color.RED.getColor();
+//                    textField.setStyle("-fx-control-inner-background: " + color);
+//                });
             });
         });
     }

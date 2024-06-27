@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class NetworkNode {
     private String ipAddress;
-    private boolean online;
+    private String online;
     private String log;
     private String lastOnlineTime;
 }

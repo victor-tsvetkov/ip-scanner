@@ -14,5 +14,6 @@ module viktor.tsvetkov.ip_scanner {
     requires org.apache.commons.lang3;
 
     opens viktor.tsvetkov.ip_scanner to javafx.fxml;
+    opens viktor.tsvetkov.ip_scanner.model;
     exports viktor.tsvetkov.ip_scanner;
 }

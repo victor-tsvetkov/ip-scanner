@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <VBox fx:id="mainVbox" alignment="CENTER" prefHeight="599.0" prefWidth="743.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viktor.tsvetkov.ip_scanner.ScanController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-   <children>
-      <FlowPane prefHeight="200.0" prefWidth="200.0" rowValignment="TOP" VBox.vgrow="ALWAYS">
-         <VBox.margin>
-            <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-         </VBox.margin>
-        <TableView fx:id="table" prefHeight="559.0" prefWidth="708.0" />
-      </FlowPane>
-   </children>
 </VBox>
