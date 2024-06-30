@@ -14,4 +14,6 @@ public class NetworkNode {
     private String online;
     private String log;
     private String lastOnlineTime;
+    private String lastOnlineText;
+    private String delayTimeMs;
 }

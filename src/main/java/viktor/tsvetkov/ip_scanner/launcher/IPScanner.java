@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -37,16 +38,27 @@ public class IPScanner {
     private void writeLog(NetworkNode networkNode) {
         String logItem;
         String host = networkNode.getIpAddress();
+        Date start = new Date();
         try {
             if (InetAddress.getByName(host).isReachable(600)) {
+                long delay = new Date().getTime() - start.getTime();
+                networkNode.setDelayTimeMs(String.valueOf(delay));
                 logItem = getCurrentLocalDateTime() + " Адрес " + host + " в сети\n";
                 log.info(logItem);
                 networkNode.setOnline("В сети");
                 networkNode.setLastOnlineTime(getCurrentLocalDateTime());
+                networkNode.setLastOnlineText("Сейчас");
             } else {
                 logItem = getCurrentLocalDateTime() + " Внимание! Адрес " + host + " не в сети!\n";
                 log.warn(logItem);
                 networkNode.setOnline("Не в сети");
+                networkNode.setDelayTimeMs("-");
+                String lastOnlineTime = networkNode.getLastOnlineTime();
+                if (networkNode.getLastOnlineTime() != null) {
+                    networkNode.setLastOnlineText(lastOnlineTime);
+                } else {
+                    networkNode.setLastOnlineText("Сегодня не был активен");
+                }
             }
         } catch (UnknownHostException e) {
             logItem = getCurrentLocalDateTime() + " Ошибка при попытке пинга - неизвестный адрес: " + host + "\n";

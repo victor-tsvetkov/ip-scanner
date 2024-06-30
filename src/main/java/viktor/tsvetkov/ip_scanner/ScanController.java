@@ -23,6 +23,9 @@ public class ScanController {
 
     private IPScanner scanner;
     private ScheduleExecutor executor;
+    private TableService tableService;
+    private List<NetworkNode> networkNodes;
+    private TableView<NetworkNode> table;
 
     @FXML
     public void initialize() {
@@ -32,42 +35,18 @@ public class ScanController {
         logFileManager.createLogsFile();
         scanner = new IPScanner(properties.getMainHosts(), logFileManager);
         scanMainHosts();
-        List<NetworkNode> networkNodes = scanner.scanMainHosts();
-        TableService tableService = new TableService(networkNodes);
-        TableView<NetworkNode> table = tableService.createTable();
-        mainVbox.getChildren().add(table);
-
-//        String[] mainHosts = properties.getMainHosts();
-//        int length = properties.getMainHosts().length;
-//        for (int i = 0; i < length; i++) {
-//            TextField textField = new TextField();
-//            textField.setId(mainHosts[i]);
-//            mainVbox.getChildren().add(textField);
-//        }
     }
 
     @FXML
     public void scanMainHosts() {
+        networkNodes = scanner.scanMainHosts();
+        tableService = new TableService(networkNodes);
+        table = tableService.createTable();
+        mainVbox.getChildren().add(table);
         executor.execute(() -> {
             Platform.runLater(() -> {
-//                networkNodes = scanner.scanMainHosts();
-//                networkNodes.forEach(networkNode -> {
-//                    TextField textField = (TextField) mainVbox
-//                            .getChildren().stream().filter(field -> field.getId().equals(networkNode.getIpAddress()))
-//                            .findFirst().orElseThrow();
-//                    String status = networkNode.isOnline() ? " в сети" : " не в сети";
-//                    String lastOnlineTime = "";
-//                    if (!networkNode.isOnline()) {
-//                        if (networkNode.getLastOnlineTime() == null) {
-//                            lastOnlineTime = ". Последняя активность: сегодня ещё не был активен";
-//                        } else {
-//                            lastOnlineTime = ". Последняя активность: " + networkNode.getLastOnlineTime();
-//                        }
-//                    }
-//                    textField.setText("Адрес " + networkNode.getIpAddress() + status + lastOnlineTime);
-//                    String color = networkNode.isOnline() ? Color.GREEN.getColor() : Color.RED.getColor();
-//                    textField.setStyle("-fx-control-inner-background: " + color);
-//                });
+                scanner.scanMainHosts();
+                tableService.setNodes(networkNodes);
             });
         });
     }

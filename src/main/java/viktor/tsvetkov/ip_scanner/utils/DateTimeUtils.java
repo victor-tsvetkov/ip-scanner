@@ -18,7 +18,7 @@ public class DateTimeUtils {
         String hours = convertToTimeValue(dateTime, TimeValue.HOUR);
         String minutes = convertToTimeValue(dateTime, TimeValue.MINUTE);
         String seconds = convertToTimeValue(dateTime, TimeValue.SECOND);
-        return day + "." + month + " " + hours + "-" + minutes + "-" + seconds;
+        return day + "." + month + " " + hours + ":" + minutes + ":" + seconds;
     }
 
     public static Date localDateTimeToDate(@NonNull LocalDateTime localDateTime) {

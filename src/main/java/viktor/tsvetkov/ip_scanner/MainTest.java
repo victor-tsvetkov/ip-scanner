@@ -6,11 +6,7 @@ import java.util.Date;
 
 public class MainTest {
     public static void main(String[] args) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Date date = new Date();
-        String outDate = dateFormat.format(date);
-        Date dateFromString = dateFormat.parse(outDate);
-        System.out.println(outDate);
-        System.out.println(dateFromString);
+        String str = "3";
+        System.out.println(Long.parseLong(str));
     }
 }
