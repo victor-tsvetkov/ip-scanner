@@ -16,4 +16,6 @@ module viktor.tsvetkov.ip_scanner {
     opens viktor.tsvetkov.ip_scanner to javafx.fxml;
     opens viktor.tsvetkov.ip_scanner.model;
     exports viktor.tsvetkov.ip_scanner;
+    exports viktor.tsvetkov.ip_scanner.controllers;
+    opens viktor.tsvetkov.ip_scanner.controllers to javafx.fxml;
 }

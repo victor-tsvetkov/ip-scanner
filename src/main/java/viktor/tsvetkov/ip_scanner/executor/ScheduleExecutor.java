@@ -15,7 +15,7 @@ public class ScheduleExecutor {
     }
 
     public boolean close() {
-        service.shutdown();
+        service.shutdownNow();
         try {
             return service.awaitTermination(10, TimeUnit.SECONDS);
         } catch (InterruptedException e) {

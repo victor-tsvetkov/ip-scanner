@@ -1,9 +1,8 @@
-package viktor.tsvetkov.ip_scanner;
+package viktor.tsvetkov.ip_scanner.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import viktor.tsvetkov.ip_scanner.executor.ScheduleExecutor;
 import viktor.tsvetkov.ip_scanner.launcher.IPScanner;
@@ -11,9 +10,7 @@ import viktor.tsvetkov.ip_scanner.launcher.LauncherProperties;
 import viktor.tsvetkov.ip_scanner.logging.LogFileManager;
 import viktor.tsvetkov.ip_scanner.model.NetworkNode;
 import viktor.tsvetkov.ip_scanner.services.TableService;
-import viktor.tsvetkov.ip_scanner.utils.Color;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ScanController {
@@ -35,6 +32,11 @@ public class ScanController {
         logFileManager.createLogsFile();
         scanner = new IPScanner(properties.getMainHosts(), logFileManager);
         scanMainHosts();
+    }
+
+    @FXML
+    public void deinitialize() {
+        executor.close();
     }
 
     @FXML
