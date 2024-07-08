@@ -1,55 +1,24 @@
 package viktor.tsvetkov.ip_scanner.controllers;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
-import viktor.tsvetkov.ip_scanner.executor.ScheduleExecutor;
-import viktor.tsvetkov.ip_scanner.launcher.IPScanner;
-import viktor.tsvetkov.ip_scanner.launcher.LauncherProperties;
-import viktor.tsvetkov.ip_scanner.logging.LogFileManager;
-import viktor.tsvetkov.ip_scanner.model.NetworkNode;
-import viktor.tsvetkov.ip_scanner.services.TableService;
-
-import java.util.List;
+import viktor.tsvetkov.ip_scanner.services.ScannerService;
 
 public class ScanController {
 
     @FXML
     private VBox mainVbox;
+    private ScannerService scannerService;
 
-    private IPScanner scanner;
-    private ScheduleExecutor executor;
-    private TableService tableService;
-    private List<NetworkNode> networkNodes;
-    private TableView<NetworkNode> table;
-
-    @FXML
-    public void initialize() {
-        executor = new ScheduleExecutor(1, 4);
-        LauncherProperties properties = new LauncherProperties();
-        LogFileManager logFileManager = new LogFileManager();
-        logFileManager.createLogsFile();
-        scanner = new IPScanner(properties.getMainHosts(), logFileManager);
-        scanMainHosts();
+    public void initScannerService(String[] hosts) {
+        scannerService = new ScannerService(mainVbox, hosts);
+        scannerService.startScanning();
     }
 
     @FXML
     public void deinitialize() {
-        executor.close();
+        scannerService.stopScanning();
+        scannerService = null;
     }
 
-    @FXML
-    public void scanMainHosts() {
-        networkNodes = scanner.scanMainHosts();
-        tableService = new TableService(networkNodes);
-        table = tableService.createTable();
-        mainVbox.getChildren().add(table);
-        executor.execute(() -> {
-            Platform.runLater(() -> {
-                scanner.scanMainHosts();
-                tableService.setNodes(networkNodes);
-            });
-        });
-    }
 }
