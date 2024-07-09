@@ -4,6 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 @Slf4j
@@ -15,8 +18,9 @@ public class LauncherProperties {
         init();
     }
 
-    public String[] getMainHosts() {
-        return properties.getProperty("mainHosts").split(",");
+    public List<String> getMainHosts() {
+        String[] array = properties.getProperty("mainHosts").split(",");
+        return new ArrayList<>(Arrays.asList(array));
     }
 
     private void init() {
