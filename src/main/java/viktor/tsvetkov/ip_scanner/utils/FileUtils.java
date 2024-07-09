@@ -60,6 +60,34 @@ public class FileUtils {
         }
     }
 
+    public static String getTextFromFile(String filename) {
+        if (checkIfPathExists(filename)) {
+            try {
+                Path path = Path.of(filename);
+                byte[] bytes = Files.readAllBytes(path);
+                return new String(bytes);
+            } catch (Exception e) {
+                log.error("Ошибка при считывании файла {}, текст ошибки: {}", filename, e.toString());
+                throw new RuntimeException(e);
+            }
+        } else {
+            throw new RuntimeException("Файл с именем " + filename + " не существует");
+        }
+    }
+
+    public static void rewriteTextToFile(String filename, String text) {
+        if (checkIfPathExists(filename)) {
+            try {
+                Path path = Path.of(filename);
+                Files.write(path, text.getBytes());
+            } catch (Exception e) {
+                log.error("Ошибка записи в файл {}, текст ошибки: {}", filename, e.toString());
+            }
+        } else {
+            log.warn("Файла с именем {} не существует", filename);
+        }
+    }
+
     public static void writeTextToFile(String fileName, String text) {
         if (checkIfPathExists(fileName)) {
             try {

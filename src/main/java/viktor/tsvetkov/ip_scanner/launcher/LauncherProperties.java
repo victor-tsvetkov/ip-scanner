@@ -2,34 +2,51 @@ package viktor.tsvetkov.ip_scanner.launcher;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
-import java.io.InputStream;
+import static viktor.tsvetkov.ip_scanner.utils.FileUtils.createFile;
+import static viktor.tsvetkov.ip_scanner.utils.FileUtils.createDirectory;
+import static viktor.tsvetkov.ip_scanner.utils.FileUtils.rewriteTextToFile;
+import static viktor.tsvetkov.ip_scanner.utils.FileUtils.getTextFromFile;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 @Slf4j
 public class LauncherProperties {
 
-    private Properties properties;
+    private final String pathToProperties = "src/main/resources/logs/";
+    private final String fileProperties = pathToProperties + "properties.txt";
 
     public LauncherProperties() {
         init();
     }
 
     public List<String> getMainHosts() {
-        String[] array = properties.getProperty("mainHosts").split(",");
+        String text = getTextFromFile(fileProperties);
+        String[] array = text.split(",");
         return new ArrayList<>(Arrays.asList(array));
     }
 
-    private void init() {
-        try (InputStream inputStream = this.getClass().
-                getClassLoader().getResourceAsStream("application.properties")) {
-            properties = new Properties();
-            properties.load(inputStream);
-        } catch (IOException e) {
-            log.error("Error while reading properties: {}", e.getMessage());
+    public void removeAddress(String host) {
+        List<String> hosts = getMainHosts();
+        hosts.remove(host);
+        String text = String.join(",", hosts);
+        rewriteTextToFile(fileProperties, text);
+    }
+
+    public void addAddress(String host, int index) {
+        List<String> hosts = getMainHosts();
+        if (index == -1 || index == hosts.size()) {
+            hosts.add(host);
+        } else {
+            hosts.set(index, host);
         }
+        String text = String.join(",", hosts);
+        rewriteTextToFile(fileProperties, text);
+    }
+
+    private void init() {
+        createDirectory(pathToProperties);
+        createFile(fileProperties);
     }
 }

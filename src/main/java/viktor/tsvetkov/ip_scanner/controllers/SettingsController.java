@@ -39,41 +39,17 @@ public class SettingsController {
         addHostButton.setLayoutX(300);
         addHostButton.setLayoutY(29.0);
         addHostButton.setMnemonicParsing(false);
+        addHostButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                addNode(gridPane.getRowCount(), "");
+            }
+        });
 
         gridPane = new GridPane();
         int rowIndex = 0;
         for (String host : properties.getMainHosts()) {
-            TextField textField = new TextField(host);
-            textField.setDisable(true);
-            Button saveBtn = new Button("Сохранить");
-            Button editBtn = new Button("Редактировать");
-            int finalRowIndex = rowIndex;
-            editBtn.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    edit(finalRowIndex, 0);
-                }
-            });
-            saveBtn.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    save(finalRowIndex, 0);
-                }
-            });
-            Button removeBtn = new Button("Удалить");
-            removeBtn.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    remove(finalRowIndex, 0);
-                    remove(finalRowIndex, 1);
-                    remove(finalRowIndex, 2);
-                    remove(finalRowIndex, 3);
-                }
-            });
-            gridPane.add(textField, 0, rowIndex);
-            gridPane.add(saveBtn, 1, rowIndex);
-            gridPane.add(editBtn, 2, rowIndex);
-            gridPane.add(removeBtn, 3, rowIndex);
+            addNode(rowIndex, host);
             gridPane.setVgap(15);
             gridPane.setHgap(10);
             rowIndex++;
@@ -92,13 +68,53 @@ public class SettingsController {
     private void save(int rowIndex, int columnIndex) {
         Node node = findNode(rowIndex, columnIndex);
         TextField textField = (TextField) node;
-        textField.setText(textField.getText());
+        String newText = textField.getText();
         textField.setDisable(true);
+        int index = gridPane.getRowIndex(node);
+        properties.addAddress(newText, index);
+    }
+
+    private void addNode(int rowIndex, String host) {
+        TextField textField = new TextField(host);
+        textField.setDisable(true);
+        Button saveBtn = new Button("Сохранить");
+        Button editBtn = new Button("Редактировать");
+        int finalRowIndex = rowIndex;
+        editBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                edit(finalRowIndex, 0);
+            }
+        });
+        saveBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                save(finalRowIndex, 0);
+            }
+        });
+        Button removeBtn = new Button("Удалить");
+        removeBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                remove(finalRowIndex, 0);
+                remove(finalRowIndex, 1);
+                remove(finalRowIndex, 2);
+                remove(finalRowIndex, 3);
+            }
+        });
+        gridPane.add(textField, 0, rowIndex);
+        gridPane.add(saveBtn, 1, rowIndex);
+        gridPane.add(editBtn, 2, rowIndex);
+        gridPane.add(removeBtn, 3, rowIndex);
     }
 
     private void remove(int rowIndex, int columnIndex) {
         Node node = findNode(rowIndex, columnIndex);
         gridPane.getChildren().remove(node);
+        if (columnIndex == 0) {
+            TextField textField = (TextField) node;
+            properties.removeAddress(textField.getText());
+        }
     }
 
     private Node findNode(int rowIndex, int columnIndex) {
