@@ -38,10 +38,11 @@ public class SettingsController {
         headerLabel.setLayoutX(100);
         headerLabel.setLayoutY(29);
         btnToScanner = new Button("Сканер");
-        btnToScanner.setLayoutY(300);
-        btnToScanner.setLayoutY(35);
+        btnToScanner.setStyle("display: block; margin: 0 auto");
+//        btnToScanner.setLayoutY(300);
+//        btnToScanner.setLayoutY(35);
         addHostButton = new Button("Добавить");
-        addHostButton.setLayoutX(300);
+        addHostButton.setLayoutX(400);
         addHostButton.setLayoutY(30);
         addHostButton.setMnemonicParsing(false);
         addHostButton.setOnAction(event -> addNode(gridPane.getRowCount(), ""));

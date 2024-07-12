@@ -20,8 +20,6 @@ public class ScanController {
         scannerService = new ScannerService(mainVbox, componentsProvider.properties()
                 .getMainHosts().toArray(new String[0]));
         btnToSettings = new Button("Настройки");
-        btnToSettings.setLayoutX(300);
-        btnToSettings.setLayoutY(30);
         mainVbox.getChildren().add(btnToSettings);
         btnToSettings.setOnAction(event -> moveToSettings());
         startScanning();
@@ -39,6 +37,7 @@ public class ScanController {
     }
 
     private void unmount() {
+        mainVbox.getChildren().removeAll(mainVbox.getChildren());
         scannerService.stopScanning();
         scannerService = null;
     }
