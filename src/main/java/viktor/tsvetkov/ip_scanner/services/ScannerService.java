@@ -45,6 +45,9 @@ public class ScannerService {
     }
 
     public void stopScanning() {
+        networkNodes = null;
+        tableService = null;
+        table = null;
         executor.close();
     }
 

@@ -11,8 +11,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import viktor.tsvetkov.ip_scanner.launcher.LauncherProperties;
+import viktor.tsvetkov.ip_scanner.model.ComponentsProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,28 +29,27 @@ public class SettingsController {
     private GridPane gridPane;
     private Button addHostButton;
     private final String header = "Настройка статических адресов для сканирования";
-    private LauncherProperties properties;
+    private Button btnToScanner;
+    private ComponentsProvider componentsProvider;
 
-    public void init(LauncherProperties properties) {
-        this.properties = properties;
+    public void init(ComponentsProvider componentsProvider) {
+        this.componentsProvider = componentsProvider;
         Label headerLabel = new Label(header);
-
         headerLabel.setLayoutX(100);
         headerLabel.setLayoutY(29);
+        btnToScanner = new Button("Сканер");
+        btnToScanner.setLayoutY(300);
+        btnToScanner.setLayoutY(35);
         addHostButton = new Button("Добавить");
         addHostButton.setLayoutX(300);
-        addHostButton.setLayoutY(29.0);
+        addHostButton.setLayoutY(30);
         addHostButton.setMnemonicParsing(false);
-        addHostButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                addNode(gridPane.getRowCount(), "");
-            }
-        });
+        addHostButton.setOnAction(event -> addNode(gridPane.getRowCount(), ""));
+        btnToScanner.setOnAction(event -> moveToScanner());
 
         gridPane = new GridPane();
         int rowIndex = 0;
-        for (String host : properties.getMainHosts()) {
+        for (String host : componentsProvider.properties().getMainHosts()) {
             addNode(rowIndex, host);
             gridPane.setVgap(15);
             gridPane.setHgap(10);
@@ -60,9 +61,14 @@ public class SettingsController {
         scrollPane.setLayoutX(50);
         scrollPane.setLayoutY(100);
         scrollPane.setHvalue(0);
-        List<Node> nodeList = new ArrayList<>(Arrays.asList(scrollPane, addHostButton, headerLabel));
+        List<Node> nodeList = new ArrayList<>(Arrays.asList(scrollPane, addHostButton, btnToScanner, headerLabel));
         ObservableList<Node> nodes = FXCollections.observableList(nodeList);
         anchorPane.getChildren().addAll(nodes);
+    }
+
+    private void moveToScanner() {
+        componentsProvider.root().setCenter(componentsProvider.nodeScanner());
+        componentsProvider.scanController().initScannerService(componentsProvider);
     }
 
     private void save(int rowIndex, int columnIndex) {
@@ -71,7 +77,7 @@ public class SettingsController {
         String newText = textField.getText();
         textField.setDisable(true);
         int index = gridPane.getRowIndex(node);
-        properties.addAddress(newText, index);
+        componentsProvider.properties().addAddress(newText, index);
     }
 
     private void addNode(int rowIndex, String host) {
@@ -113,7 +119,7 @@ public class SettingsController {
         gridPane.getChildren().remove(node);
         if (columnIndex == 0) {
             TextField textField = (TextField) node;
-            properties.removeAddress(textField.getText());
+            componentsProvider.properties().removeAddress(textField.getText());
         }
     }
 
