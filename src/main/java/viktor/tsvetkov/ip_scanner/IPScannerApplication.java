@@ -54,6 +54,7 @@ public class IPScannerApplication extends Application {
         stage.setTitle("IPScanner");
         stage.setScene(scene);
         stage.show();
+        stage.setOnCloseRequest(event -> System.exit(0));
     }
 
     public static void main(String[] args) {
