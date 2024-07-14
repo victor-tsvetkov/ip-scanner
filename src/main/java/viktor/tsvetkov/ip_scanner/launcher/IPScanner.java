@@ -17,18 +17,22 @@ import java.util.List;
 @Slf4j
 public class IPScanner {
 
-    private final List<NetworkNode> mainHosts;
+    private List<NetworkNode> mainHosts;
     private SimpleExecutor executor = new SimpleExecutor();
     private final LogFileManager logFileManager;
 
     public IPScanner(String[] requiredHosts, LogFileManager logFileManager) {
-        this.mainHosts = new ArrayList<>(requiredHosts.length);
-        for (String address : requiredHosts) {
+        updateHosts(requiredHosts);
+        this.logFileManager = logFileManager;
+    }
+
+    public void updateHosts(String[] hosts) {
+        mainHosts = new ArrayList<>(hosts.length);
+        for (String address : hosts) {
             NetworkNode networkNode = new NetworkNode();
             networkNode.setIpAddress(address);
-            this.mainHosts.add(networkNode);
+            mainHosts.add(networkNode);
         }
-        this.logFileManager = logFileManager;
     }
 
     public List<NetworkNode> scanMainHosts() {

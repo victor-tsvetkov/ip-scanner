@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1070.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viktor.tsvetkov.ip_scanner.controllers.MainController">
+   <children>
+      <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="485.0">
+         <children>
+            <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="70.0" prefWidth="430.0">
+               <children>
+                  <Label alignment="CENTER" text="Настройка статических адресов">
+                     <font>
+                        <Font name="Cambria Bold" size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="43.0" prefWidth="485.0">
+               <children>
+                  <Button fx:id="addBtn" alignment="CENTER" mnemonicParsing="false" text="Добавить">
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+            <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="530.0" prefWidth="434.0">
+               <content>
+                  <GridPane fx:id="gridHosts" hgap="15.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="114.0" prefWidth="485.0" vgap="10.0">
+                  </GridPane>
+               </content>
+               <VBox.margin>
+                  <Insets left="5.0" />
+               </VBox.margin>
+            </ScrollPane>
+         </children>
+      </VBox>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="588.0">
+         <children>
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="69.0" prefWidth="587.0">
+               <children>
+                  <Button fx:id="startScanBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Начать сканирование">
+                     <HBox.margin>
+                        <Insets left="15.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="stopScanBtn" mnemonicParsing="false" text="Остановить сканирование">
+                     <HBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="355.0">
+              <columns>
+                <TableColumn maxWidth="1.7976931348623157E308" prefWidth="159.0" text="IP-адрес" />
+                <TableColumn maxWidth="1.7976931348623157E308" prefWidth="104.0" text="Статус" />
+                  <TableColumn prefWidth="135.0" text="Время отклика (мс)" />
+                  <TableColumn prefWidth="172.0" text="Последняя активность" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+   </children>
+</HBox>
