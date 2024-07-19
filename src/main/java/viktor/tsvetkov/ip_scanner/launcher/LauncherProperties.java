@@ -2,6 +2,10 @@ package viktor.tsvetkov.ip_scanner.launcher;
 
 import lombok.extern.slf4j.Slf4j;
 
+import static viktor.tsvetkov.ip_scanner.paths.FilePathsProvider.hostsPath;
+import static viktor.tsvetkov.ip_scanner.paths.FilePathsProvider.defaultHostsPath;
+import static viktor.tsvetkov.ip_scanner.paths.FilePathsProvider.ipScannerDefaultPath;
+
 import static viktor.tsvetkov.ip_scanner.utils.FileUtils.createFile;
 import static viktor.tsvetkov.ip_scanner.utils.FileUtils.createDirectory;
 import static viktor.tsvetkov.ip_scanner.utils.FileUtils.rewriteTextToFile;
@@ -14,7 +18,7 @@ import java.util.List;
 @Slf4j
 public class LauncherProperties {
 
-    private final String pathToProperties = "src/main/resources/logs/";
+    private final String pathToProperties = hostsPath == null ? defaultHostsPath : hostsPath;
     private final String fileProperties = pathToProperties + "properties.txt";
 
     public LauncherProperties() {
@@ -46,6 +50,7 @@ public class LauncherProperties {
     }
 
     private void init() {
+        createDirectory(ipScannerDefaultPath);
         createDirectory(pathToProperties);
         createFile(fileProperties);
     }
