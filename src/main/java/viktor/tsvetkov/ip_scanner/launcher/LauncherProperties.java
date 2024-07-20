@@ -27,8 +27,11 @@ public class LauncherProperties {
 
     public List<String> getMainHosts() {
         String text = getTextFromFile(fileProperties);
-        String[] array = text.split(",");
-        return new ArrayList<>(Arrays.asList(array));
+        if (text != null) {
+            String[] array = text.split(",");
+            return new ArrayList<>(Arrays.asList(array));
+        }
+        return new ArrayList<>();
     }
 
     public void removeAddress(String host) {

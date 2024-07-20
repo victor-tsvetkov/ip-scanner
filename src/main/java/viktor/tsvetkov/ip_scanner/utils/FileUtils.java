@@ -65,6 +65,9 @@ public class FileUtils {
             try {
                 Path path = Path.of(filename);
                 byte[] bytes = Files.readAllBytes(path);
+                if (bytes.length == 0) {
+                    return null;
+                }
                 return new String(bytes);
             } catch (Exception e) {
                 log.error("Ошибка при считывании файла {}, текст ошибки: {}", filename, e.toString());

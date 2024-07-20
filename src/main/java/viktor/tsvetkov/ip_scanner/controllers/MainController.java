@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -36,13 +37,24 @@ public class MainController {
         }
         addBtn.setOnAction(event -> addNode(gridHosts.getRowCount(), ""));
         scannerService = new ScannerService(table, properties.getMainHosts().toArray(new String[0]));
-        startScanBtn.setOnAction(event -> startScanning());
-        stopScanBtn.setOnAction(event -> stopScanning());
+        table.setPlaceholder(new Label("Начните сканирование для отображения узлов в таблице"));
+        startScanBtn.setOnAction(event -> {
+            gridHosts.setDisable(true);
+            addBtn.setDisable(true);
+            startScanning();
+        });
+        stopScanBtn.setOnAction(event -> {
+            gridHosts.setDisable(false);
+            addBtn.setDisable(false);
+            stopScanning();
+        });
     }
 
     private void startScanning() {
-        scannerService.updateHosts(properties.getMainHosts().toArray(new String[0]));
-        scannerService.startScanning();
+        if (!properties.getMainHosts().isEmpty()) {
+            scannerService.updateHosts(properties.getMainHosts().toArray(new String[0]));
+            scannerService.startScanning();
+        }
     }
 
     private void stopScanning() {
