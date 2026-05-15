@@ -1,16 +1,18 @@
 package viktor.tsvetkov.ip_scanner.model;
 
+import javafx.scene.Scene;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class NetworkNode {
-    private String ipAddress;
-    private String online;
-    private String delayTimeMs;
+@EqualsAndHashCode(exclude = {"scene"})
+public class SceneEntity {
+    private String sceneName;
+    private Scene scene;
 }

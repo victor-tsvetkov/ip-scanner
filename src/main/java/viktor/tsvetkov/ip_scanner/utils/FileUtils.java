@@ -6,7 +6,10 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -91,7 +94,7 @@ public class FileUtils {
         }
     }
 
-    public static void writeTextToFile(String fileName, String text) {
+    public static synchronized void writeTextToFile(String fileName, String text) {
         if (checkIfPathExists(fileName)) {
             try {
                 Path path = Path.of(fileName);

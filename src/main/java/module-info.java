@@ -1,4 +1,4 @@
-module viktor.tsvetkov.ip_scanner {
+module ip_scanner {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
@@ -10,7 +10,6 @@ module viktor.tsvetkov.ip_scanner {
     requires eu.hansolo.tilesfx;
     requires lombok;
     requires org.slf4j;
-    requires org.slf4j.simple;
     requires org.apache.commons.lang3;
 
     opens viktor.tsvetkov.ip_scanner to javafx.fxml;

@@ -6,10 +6,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import viktor.tsvetkov.ip_scanner.constants.Constants;
 import viktor.tsvetkov.ip_scanner.executor.ScheduleExecutor;
 import viktor.tsvetkov.ip_scanner.launcher.IPScanner;
 import viktor.tsvetkov.ip_scanner.logging.LogFileManager;
 import viktor.tsvetkov.ip_scanner.model.NetworkNode;
+import viktor.tsvetkov.ip_scanner.utils.Color;
 
 import java.util.List;
 
@@ -33,17 +35,14 @@ public class ScannerService {
     private void initColumns() {
         for (TableColumn<NetworkNode, ?> column : table.getColumns()) {
             switch (column.getText()) {
-                case "IP-адрес":
+                case Constants.ColumnsNames.IP_ADDRESS:
                     column.setCellValueFactory(new PropertyValueFactory<>("ipAddress"));
                     break;
-                case "Статус":
+                case Constants.ColumnsNames.STATUS:
                     column.setCellValueFactory(new PropertyValueFactory<>("online"));
                     break;
-                case "Время отклика (мс)":
+                case Constants.ColumnsNames.PING_TIME_MS:
                     column.setCellValueFactory(new PropertyValueFactory<>("delayTimeMs"));
-                    break;
-                case "Последняя активность":
-                    column.setCellValueFactory(new PropertyValueFactory<>("lastOnlineText"));
                     break;
             }
         }
@@ -53,13 +52,13 @@ public class ScannerService {
                 super.updateItem(networkNode, empty);
                 if (networkNode != null) {
                     if (networkNode.getOnline().equals("Не в сети")) {
-                        setStyle("-fx-background-color: #E02840;");
+                        setStyle(String.format("-fx-background-color: %s", Color.RED.getColor()));
                     } else {
                         if (networkNode.getDelayTimeMs() != null) {
                             if (Long.parseLong(networkNode.getDelayTimeMs()) > 150) {
-                                setStyle("-fx-background-color: #E0C200;");
+                                setStyle(String.format("-fx-background-color: %s", Color.YELLOW.getColor()));
                             } else {
-                                setStyle("-fx-background-color: #1EE009;");
+                                setStyle(String.format("-fx-background-color: %s", Color.GREEN.getColor()));
                             }
                         }
                     }

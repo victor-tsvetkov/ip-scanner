@@ -8,15 +8,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+import viktor.tsvetkov.ip_scanner.constants.Constants;
 import viktor.tsvetkov.ip_scanner.launcher.LauncherProperties;
 import viktor.tsvetkov.ip_scanner.model.NetworkNode;
+import viktor.tsvetkov.ip_scanner.model.SceneEntity;
 import viktor.tsvetkov.ip_scanner.services.ScannerService;
+import viktor.tsvetkov.ip_scanner.stores.SceneStore;
 
-public class MainController {
+public class MainController extends AbstractController {
 
     @FXML
     private GridPane gridHosts;
-    private LauncherProperties properties;
     @FXML
     private Button addBtn;
     @FXML
@@ -24,12 +27,16 @@ public class MainController {
     @FXML
     private Button stopScanBtn;
     @FXML
+    private Button openSettingsBtn;
+
+    @FXML
     private TableView<NetworkNode> table;
 
     private ScannerService scannerService;
 
-    public void init(LauncherProperties properties) {
-        this.properties = properties;
+    @Override
+    public void init(Stage stage, LauncherProperties properties, SceneStore sceneStore) {
+        super.init(stage, properties, sceneStore);
         int rowIndex = 0;
         for (String host : properties.getMainHosts()) {
             addNode(rowIndex, host);
@@ -48,13 +55,19 @@ public class MainController {
             addBtn.setDisable(false);
             stopScanning();
         });
+        openSettingsBtn.setOnAction(event -> openSettings());
     }
 
     private void startScanning() {
-        if (!properties.getMainHosts().isEmpty()) {
-            scannerService.updateHosts(properties.getMainHosts().toArray(new String[0]));
+        if (!launcherProperties.getMainHosts().isEmpty()) {
+            scannerService.updateHosts(launcherProperties.getMainHosts().toArray(new String[0]));
             scannerService.startScanning();
         }
+    }
+
+    private void openSettings() {
+        SceneEntity sceneEntitySettings = sceneStore.search("settings-view.fxml");
+        stage.setScene(sceneEntitySettings.getScene());
     }
 
     private void stopScanning() {
@@ -64,11 +77,11 @@ public class MainController {
     private void addNode(int rowIndex, String host) {
         TextField textField = new TextField(host);
         textField.setDisable(true);
-        Button saveBtn = new Button("Сохранить");
-        Button editBtn = new Button("Редактировать");
+        Button saveBtn = new Button(Constants.ButtonConstants.SAVE);
+        Button editBtn = new Button(Constants.ButtonConstants.EDIT);
         editBtn.setOnAction(event -> edit(rowIndex, 0));
         saveBtn.setOnAction(event -> save(rowIndex, 0));
-        Button removeBtn = new Button("Удалить");
+        Button removeBtn = new Button(Constants.ButtonConstants.REMOVE);
         removeBtn.setOnAction(event -> {
             remove(rowIndex, 0);
             remove(rowIndex, 1);
@@ -86,7 +99,7 @@ public class MainController {
         gridHosts.getChildren().remove(node);
         if (columnIndex == 0) {
             TextField textField = (TextField) node;
-            properties.removeAddress(textField.getText());
+            launcherProperties.removeAddress(textField.getText());
         }
     }
 
@@ -103,7 +116,7 @@ public class MainController {
         String newText = textField.getText();
         textField.setDisable(true);
         int index = GridPane.getRowIndex(node);
-        properties.addAddress(newText, index);
+        launcherProperties.addAddress(newText, index);
     }
 
     private void edit(int rowIndex, int columnIndex) {

@@ -39,7 +39,7 @@ public class IPScanner {
         return scanHosts(mainHosts);
     }
 
-    private void writeLog(NetworkNode networkNode) {
+    private void pingNode(NetworkNode networkNode) {
         String logItem;
         String host = networkNode.getIpAddress();
         Date start = new Date();
@@ -50,19 +50,11 @@ public class IPScanner {
                 logItem = getCurrentLocalDateTime() + " Адрес " + host + " в сети\n";
                 log.info(logItem);
                 networkNode.setOnline("В сети");
-                networkNode.setLastOnlineTime(getCurrentLocalDateTime());
-                networkNode.setLastOnlineText("Сейчас");
             } else {
                 logItem = getCurrentLocalDateTime() + " Внимание! Адрес " + host + " не в сети!\n";
                 log.warn(logItem);
                 networkNode.setOnline("Не в сети");
                 networkNode.setDelayTimeMs("-");
-                String lastOnlineTime = networkNode.getLastOnlineTime();
-                if (networkNode.getLastOnlineTime() != null) {
-                    networkNode.setLastOnlineText(lastOnlineTime);
-                } else {
-                    networkNode.setLastOnlineText("Сегодня не был активен");
-                }
             }
         } catch (UnknownHostException e) {
             logItem = getCurrentLocalDateTime() + " Ошибка при попытке пинга - неизвестный адрес: " + host + "\n";
@@ -72,13 +64,12 @@ public class IPScanner {
             logItem = e.getMessage();
             log.error(logItem);
         }
-        networkNode.setLog(logItem);
         logFileManager.writeLogToFile(logItem);
     }
 
     private List<NetworkNode> scanHosts(List<NetworkNode> hosts) {
         for (NetworkNode host : hosts) {
-            executor.execute(() -> writeLog(host));
+            executor.execute(() -> pingNode(host));
         }
         boolean executed = executor.close();
         if (executed) {

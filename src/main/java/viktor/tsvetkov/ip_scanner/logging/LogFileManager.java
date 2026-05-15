@@ -32,7 +32,7 @@ public class LogFileManager {
         return null;
     }
 
-    public synchronized void writeLogToFile(String log) {
+    public void writeLogToFile(String log) {
         String filename = findTodayFile();
         if (filename != null) {
             FileUtils.writeTextToFile(logsFile + filename, log);

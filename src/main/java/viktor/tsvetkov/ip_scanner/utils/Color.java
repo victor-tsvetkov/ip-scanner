@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum Color {
-    GREEN("green"), RED("red");
+    GREEN("#1EE009"), RED("#E02840"), YELLOW("#E0C200");
 
     private final String color;
 

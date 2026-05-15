@@ -38,9 +38,9 @@
             </ScrollPane>
          </children>
       </VBox>
-      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="588.0">
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="588.0" snapToPixel="false">
          <children>
-            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="69.0" prefWidth="587.0">
+            <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="69.0" prefWidth="587.0">
                <children>
                   <Button fx:id="startScanBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Начать сканирование">
                      <HBox.margin>
@@ -52,6 +52,10 @@
                         <Insets left="10.0" top="5.0" />
                      </HBox.margin>
                   </Button>
+                  <Button fx:id="openSettingsBtn" mnemonicParsing="false" text="Открыть настройку файлов">
+                     <HBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </HBox.margin></Button>
                </children>
             </HBox>
             <TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="355.0">
@@ -59,7 +63,6 @@
                 <TableColumn maxWidth="1.7976931348623157E308" prefWidth="159.0" text="IP-адрес" />
                 <TableColumn maxWidth="1.7976931348623157E308" prefWidth="104.0" text="Статус" />
                   <TableColumn prefWidth="135.0" text="Время отклика (мс)" />
-                  <TableColumn prefWidth="172.0" text="Последняя активность" />
               </columns>
             </TableView>
          </children>
