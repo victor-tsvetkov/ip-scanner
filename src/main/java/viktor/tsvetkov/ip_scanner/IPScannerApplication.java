@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import viktor.tsvetkov.ip_scanner.constants.Constants;
 import viktor.tsvetkov.ip_scanner.controllers.MainController;
+import viktor.tsvetkov.ip_scanner.controllers.SettingsController;
 import viktor.tsvetkov.ip_scanner.launcher.LauncherProperties;
 import viktor.tsvetkov.ip_scanner.model.SceneEntity;
 import viktor.tsvetkov.ip_scanner.stores.SceneStore;
@@ -41,6 +42,8 @@ public class IPScannerApplication extends Application {
         Region settingsRoot = settingsLoader.load();
         Scene settingsScene = new Scene(settingsRoot, 1070, 600);
         sceneStore.addSceneEntity(new SceneEntity("settings-view.fxml", settingsScene));
+        SettingsController settingsController = settingsLoader.getController();
+        settingsController.init(stage, properties, sceneStore);
 //        letterbox(settingsScene, settingsRoot);
 //        stage.setScene(settingsScene);
 //        stage.show();
