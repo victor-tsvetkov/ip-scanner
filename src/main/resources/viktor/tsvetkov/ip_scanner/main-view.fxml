@@ -5,7 +5,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1070.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viktor.tsvetkov.ip_scanner.controllers.MainController">
+<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+      prefWidth="1070.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viktor.tsvetkov.ip_scanner.controllers.MainController">
    <children>
       <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="485.0">
          <children>
@@ -52,10 +53,6 @@
                         <Insets left="10.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="openSettingsBtn" mnemonicParsing="false" text="Открыть настройку файлов">
-                     <HBox.margin>
-                        <Insets left="10.0" top="5.0" />
-                     </HBox.margin></Button>
                </children>
             </HBox>
             <TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="355.0">

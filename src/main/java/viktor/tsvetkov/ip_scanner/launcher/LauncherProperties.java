@@ -2,10 +2,6 @@ package viktor.tsvetkov.ip_scanner.launcher;
 
 import lombok.extern.slf4j.Slf4j;
 
-import static viktor.tsvetkov.ip_scanner.paths.FilePathsProvider.hostsPath;
-import static viktor.tsvetkov.ip_scanner.paths.FilePathsProvider.defaultHostsPath;
-import static viktor.tsvetkov.ip_scanner.paths.FilePathsProvider.ipScannerDefaultPath;
-
 import static viktor.tsvetkov.ip_scanner.utils.FileUtils.createFile;
 import static viktor.tsvetkov.ip_scanner.utils.FileUtils.createDirectory;
 import static viktor.tsvetkov.ip_scanner.utils.FileUtils.rewriteTextToFile;
@@ -18,15 +14,21 @@ import java.util.List;
 @Slf4j
 public class LauncherProperties {
 
-    private final String pathToProperties = hostsPath == null ? defaultHostsPath : hostsPath;
-    private final String fileProperties = pathToProperties + "properties.txt";
+    private final String hostsPath = defaultHostsPath + "hosts.txt";
+
+    public static final String username = System.getProperty("user.name");
+    public static final String windowsMainPath = String.format("C:/Users/%s/Desktop/IPScanner", username);
+    public static final String linuxMainPath = String.format("/home/%s/Desktop/IPScanner", username);
+    public static final String osName = System.getProperty("os.name").toLowerCase();
+    public static final String defaultLogsPath = String.format("%s/logs/", osName.contains("windows") ? windowsMainPath : linuxMainPath);
+    public static final String defaultHostsPath = String.format("%s/hosts/", osName.contains("windows") ? windowsMainPath : linuxMainPath);
 
     public LauncherProperties() {
         init();
     }
 
     public List<String> getMainHosts() {
-        String text = getTextFromFile(fileProperties);
+        String text = getTextFromFile(hostsPath);
         if (text != null) {
             String[] array = text.split(",");
             return new ArrayList<>(Arrays.asList(array));
@@ -38,7 +40,7 @@ public class LauncherProperties {
         List<String> hosts = getMainHosts();
         hosts.remove(host);
         String text = String.join(",", hosts);
-        rewriteTextToFile(fileProperties, text);
+        rewriteTextToFile(hostsPath, text);
     }
 
     public void addAddress(String host, int index) {
@@ -49,12 +51,12 @@ public class LauncherProperties {
             hosts.set(index, host);
         }
         String text = String.join(",", hosts);
-        rewriteTextToFile(fileProperties, text);
+        rewriteTextToFile(hostsPath, text);
     }
 
     private void init() {
-        createDirectory(ipScannerDefaultPath);
-        createDirectory(pathToProperties);
-        createFile(fileProperties);
+        createDirectory(windowsMainPath);
+        createDirectory(defaultHostsPath);
+        createFile(hostsPath);
     }
 }

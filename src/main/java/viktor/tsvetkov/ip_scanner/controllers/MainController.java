@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 import viktor.tsvetkov.ip_scanner.constants.Constants;
 import viktor.tsvetkov.ip_scanner.launcher.LauncherProperties;
 import viktor.tsvetkov.ip_scanner.model.NetworkNode;
-import viktor.tsvetkov.ip_scanner.model.SceneEntity;
 import viktor.tsvetkov.ip_scanner.services.ScannerService;
 import viktor.tsvetkov.ip_scanner.stores.SceneStore;
 
@@ -26,9 +25,6 @@ public class MainController extends AbstractController {
     private Button startScanBtn;
     @FXML
     private Button stopScanBtn;
-    @FXML
-    private Button openSettingsBtn;
-
     @FXML
     private TableView<NetworkNode> table;
 
@@ -55,7 +51,6 @@ public class MainController extends AbstractController {
             addBtn.setDisable(false);
             stopScanning();
         });
-        openSettingsBtn.setOnAction(event -> openSettings());
     }
 
     private void startScanning() {
@@ -63,11 +58,6 @@ public class MainController extends AbstractController {
             scannerService.updateHosts(launcherProperties.getMainHosts().toArray(new String[0]));
             scannerService.startScanning();
         }
-    }
-
-    private void openSettings() {
-        SceneEntity sceneEntitySettings = sceneStore.search("settings-view.fxml");
-        stage.setScene(sceneEntitySettings.getScene());
     }
 
     private void stopScanning() {

@@ -1,11 +1,9 @@
 package viktor.tsvetkov.ip_scanner.logging;
 
 import lombok.Getter;
+import viktor.tsvetkov.ip_scanner.launcher.LauncherProperties;
 import viktor.tsvetkov.ip_scanner.utils.DateTimeUtils;
 import viktor.tsvetkov.ip_scanner.utils.FileUtils;
-
-import static viktor.tsvetkov.ip_scanner.paths.FilePathsProvider.logsPath;
-import static viktor.tsvetkov.ip_scanner.paths.FilePathsProvider.defaultLogsPath;
 
 import java.util.Date;
 import java.util.Set;
@@ -13,7 +11,7 @@ import java.util.Set;
 @Getter
 public class LogFileManager {
 
-    private final String logsFile = logsPath == null ? defaultLogsPath : logsPath;
+    private final String logsFile = LauncherProperties.defaultLogsPath;
 
     public void createLogsFile() {
         FileUtils.createDirectory(logsFile);
